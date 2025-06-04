@@ -33,3 +33,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    
+
+class Profile(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
+    profile_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
+    bio = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return str(self.user)
