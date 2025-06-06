@@ -6,7 +6,7 @@ class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError('Email address is required.')
-        email = self.normalize_email(email)
+        email = self.normalize_email(email).lower().strip()
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -33,7 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
-    
+
 
 class Profile(models.Model):
     id = models.BigAutoField(primary_key=True)
